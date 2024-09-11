@@ -6012,3 +6012,8 @@
 172.20.0.1 - - [17/Jul/2024:17:15:41 -0400] "GET /api/v1/entities/destination?residue_classes=[1,2,3,8] HTTP/1.1" 200 94 "-" "PostmanRuntime/7.40.0" "-"
 172.19.0.1 - - [10/Sep/2024:20:23:03 -0400] "GET / HTTP/1.1" 200 34036 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 Edg/128.0.0.0" "-"
 172.19.0.1 - - [10/Sep/2024:20:23:04 -0400] "GET /favicon.ico HTTP/1.1" 200 0 "http://localhost:8089/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 Edg/128.0.0.0" "-"
+172.19.0.1 - - [10/Sep/2024:21:08:29 -0400] "GET / HTTP/1.1" 200 34036 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 Edg/128.0.0.0" "-"
+172.19.0.1 - - [10/Sep/2024:21:08:30 -0400] "GET /favicon.ico HTTP/1.1" 200 0 "http://localhost:8089/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 Edg/128.0.0.0" "-"
+172.19.0.1 - - [10/Sep/2024:21:12:03 -0400] "GET / HTTP/1.1" 200 34067 "-" "PostmanRuntime/7.41.2" "-"
+172.19.0.1 - - [10/Sep/2024:21:48:54 -0400] "GET /api/v1/test HTTP/1.1" 404 6616 "-" "PostmanRuntime/7.41.2" "-"
+172.19.0.1 - - [10/Sep/2024:21:49:08 -0400] "GET /api/v1/test HTTP/1.1" 404 6622 "-" "PostmanRuntime/7.41.2" "-"
