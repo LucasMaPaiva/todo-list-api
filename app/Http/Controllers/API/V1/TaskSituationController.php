@@ -26,7 +26,7 @@ class TaskSituationController extends Controller
      * @param Request $request
      * @return void
      */
-    public function create(Request $request): void
+    public function store(Request $request): void
     {
             $this->taskSituationService->execute($request);
     }

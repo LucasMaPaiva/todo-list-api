@@ -3,9 +3,15 @@
 namespace App\Http\Controllers\API\V1;
 
 
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+use App\DataTransferObjects\Task\CreateTaskDTO;
+use App\Http\Requests\Task\CreateTaskRequest;
+use App\Http\Resources\Task\NewTaskResource;
 use App\Services\Task\Contracts\CreateTaskServiceContract;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Routing\Controller;
+use InvalidArgumentException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class TaskController extends Controller
 {
@@ -14,20 +20,39 @@ class TaskController extends Controller
 
     public function __construct()
     {
-        $this->service();
+        $this->services();
     }
 
-    public function service()
+    public function services() :void
     {
         $this->createTaskService = app(CreateTaskServiceContract::class);
     }
 
     /**
-     * @param Request $request
-     * @return void
+     * @param CreateTaskRequest $request
+     * @return JsonResponse
      */
-    public function create(Request $request): void
+    public function store(CreateTaskRequest $request): JsonResponse
     {
-        $this->createTaskService->execute($request);
+        try {
+            return self::successResponse(
+                data: NewTaskResource::make(
+                    $this->createTaskService->execute(
+                        CreateTaskDTO::fromRequest($request)
+                    )
+                ),
+                message: __('messages.construction.created'),
+                status_code: 201
+            );
+        } catch (ModelNotFoundException $modelNotFoundException) {
+            return self::modelNotFoundResponse($modelNotFoundException);
+        } catch (InvalidArgumentException $invalidArgumentException) {
+            return self::invalidArgumentResponse($invalidArgumentException);
+        } catch (Exception $exception) {
+            return self::internalServerErrorResponse($exception);
+        }
+//    {
+//        $this->createTaskService->execute($request);
+//    }
     }
 }

@@ -2,10 +2,9 @@
 
 namespace App\Services\Task;
 
-use App\Repository\TaskRepository;
-use App\Services\Task\Contracts\CreateTaskServiceContract;
-use Illuminate\Http\Request;
 use App\Repository\Contracts\TaskRepositoryContract;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class CreateTaskService implements Contracts\CreateTaskServiceContract
 {
@@ -22,12 +21,21 @@ class CreateTaskService implements Contracts\CreateTaskServiceContract
         $this->taskRepository = app(TaskRepositoryContract::class);
     }
 
-    public function execute(Request $request)
+    public function execute($request)
     {
-        return $this->taskRepository->create([
-            'title' => $request->get('title'),
-            'description' => $request->get('description'),
-            'task_situation_id' => $request->get('task_situation_id')
-        ]);
+        try{
+            DB::beginTransaction();
+            $task = $this->taskRepository->create([
+                'title' => $request->get('title'),
+                'description' => $request->get('description'),
+                'task_situation_id' => $request->get('task_situation_id')
+            ]);
+            DB::commit();
+            return $task;
+        } catch (Exception $exception) {
+            DB::rollBack();
+            throw $exception;
+        }
+
     }
 }
