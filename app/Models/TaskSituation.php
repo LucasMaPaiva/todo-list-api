@@ -9,6 +9,8 @@ class TaskSituation extends Model
 {
     use HasFactory;
 
+    public mixed $name;
+
     protected $table = 'task_situation';
 
     protected $fillable = [
