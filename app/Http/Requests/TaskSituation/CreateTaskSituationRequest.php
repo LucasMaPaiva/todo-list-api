@@ -1,20 +1,18 @@
 <?php
 
-namespace App\Http\Requests\Task;
+namespace App\Http\Requests\TaskSituation;
 
 use App\Base\Traits\Response;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateTaskRequest extends FormRequest {
+class CreateTaskSituationRequest extends FormRequest {
 
     use Response;
 
     public function rules(): array {
         return [
-            'title' => 'required',
-            'description' => 'sometimes',
-            'task_situation_id' => 'required|integer',
+            'name' => 'required',
         ];
     }
 
@@ -24,8 +22,7 @@ class CreateTaskRequest extends FormRequest {
 
     public function messages(): array {
         return [
-            'title.required' => __('validation.required', ['attribute' => 'título da tarefa']),
-            'task_situation_id.required' => __('validation.required', ['attribute' => 'situação da tarefa']),
+            'name.required' => __('validation.required', ['attribute' => 'nome da situação'])
         ];
     }
 

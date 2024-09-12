@@ -26,9 +26,9 @@ class CreateTaskService implements Contracts\CreateTaskServiceContract
         try{
             DB::beginTransaction();
             $task = $this->taskRepository->create([
-                'title' => $request->get('title'),
-                'description' => $request->get('description'),
-                'task_situation_id' => $request->get('task_situation_id')
+                'title' => $request->title,
+                'description' => $request->description,
+                'task_situation_id' => $request->task_situation_id,
             ]);
             DB::commit();
             return $task;

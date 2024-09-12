@@ -13,11 +13,11 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::group(['prefix' => 'task'], function () {
-        Route::post('store', [TaskController::class, 'create']);
+        Route::post('store', [TaskController::class, 'store']);
     });
 
     Route::group(['prefix' => 'task-situation'], function () {
-        Route::post('store', [TaskSituationController::class, 'create']);
+        Route::post('store', [TaskSituationController::class, 'store']);
     });
 
 });

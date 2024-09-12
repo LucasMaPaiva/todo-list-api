@@ -16,13 +16,22 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class TaskController extends Controller
 {
 
+    /**
+     * @var CreateTaskServiceContract
+     */
     private CreateTaskServiceContract $createTaskService;
 
+    /**
+     *
+     */
     public function __construct()
     {
         $this->services();
     }
 
+    /**
+     * @return void
+     */
     public function services() :void
     {
         $this->createTaskService = app(CreateTaskServiceContract::class);
@@ -41,7 +50,7 @@ class TaskController extends Controller
                         CreateTaskDTO::fromRequest($request)
                     )
                 ),
-                message: __('messages.construction.created'),
+                message: __('messages.success.store_message', ['scope' => 'Tarefa']),
                 status_code: 201
             );
         } catch (ModelNotFoundException $modelNotFoundException) {
@@ -51,8 +60,5 @@ class TaskController extends Controller
         } catch (Exception $exception) {
             return self::internalServerErrorResponse($exception);
         }
-//    {
-//        $this->createTaskService->execute($request);
-//    }
     }
 }

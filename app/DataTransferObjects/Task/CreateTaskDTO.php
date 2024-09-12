@@ -3,9 +3,9 @@
 namespace App\DataTransferObjects\Task;
 
 use App\Http\Requests\Task\CreateTaskRequest;
-use Spatie\DataTransferObject\DataTransferObject;
+use Spatie\LaravelData\Data;
 
-class CreateTaskDTO extends DataTransferObject
+class CreateTaskDTO extends Data
 {
 
     /**

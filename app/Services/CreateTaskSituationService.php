@@ -3,10 +3,9 @@
 namespace App\Services;
 
 use App\Models\TaskSituation;
-use App\Services\Contracts\CreateTaskSituationServiceContract;
-use App\DataTransferObjects\CreateTaskSituationDTO;
 use App\Repository\Contracts\TaskSituationRepositoryContract;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class CreateTaskSituationService implements Contracts\CreateTaskSituationServiceContract
 {
@@ -30,15 +29,15 @@ class CreateTaskSituationService implements Contracts\CreateTaskSituationService
      */
      public function execute($request): TaskSituation
      {
-         try {
-             return $this->taskSituationRepository->create([
+         try{
+             DB::beginTransaction();
+             $taskSituation = $this->taskSituationRepository->create([
                  'name' => $request->name
              ]);
+             DB::commit();
+             return $taskSituation;
          } catch (Exception $exception) {
-             $this->logException(
-                 caller: __METHOD__,
-                 exception: $exception,
-             );
+             DB::rollBack();
              throw $exception;
          }
     }
