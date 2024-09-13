@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\Auth\Contracts\LoginService;
+use App\Services\Auth\Contracts\LoginServiceContract;
 use App\Services\Contracts\CreateTaskSituationServiceContract;
 use App\Services\CreateTaskSituationService;
 use App\Services\Task\Contracts\CreateTaskServiceContract;
@@ -27,8 +29,14 @@ class ServiceLayerProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->AuthBoot();
         $this->TaskSituationBoot();
         $this->TaskBoot();
+    }
+
+    public function AuthBoot() :void
+    {
+        $this->app->bind(LoginServiceContract::class, LoginService::class);
     }
 
     public function TaskSituationBoot() :void
