@@ -14,6 +14,7 @@ Route::prefix('v1')->group(function () {
 
     Route::group(['prefix' => 'task'], function () {
         Route::post('store', [TaskController::class, 'store']);
+        Route::post('update/{id}', [TaskController::class, 'update']);
     });
 
     Route::group(['prefix' => 'task-situation'], function () {

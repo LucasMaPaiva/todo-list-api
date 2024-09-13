@@ -5853,3 +5853,23 @@
 2024/09/11 19:15:52 [notice] 1#1: start worker process 31
 2024/09/11 19:50:03 [warn] 28#28: *22 an upstream response is buffered to a temporary file /var/cache/nginx/fastcgi_temp/1/00/0000000001 while reading upstream, client: 172.19.0.1, server: siabes-api, request: "POST /api/v1/task/store HTTP/1.1", upstream: "fastcgi://172.19.0.5:9000", host: "siabes-web.localhost:8089"
 2024/09/11 20:08:55 [warn] 30#30: *33 an upstream response is buffered to a temporary file /var/cache/nginx/fastcgi_temp/2/00/0000000002 while reading upstream, client: 172.19.0.1, server: siabes-api, request: "POST /api/v1/task/store HTTP/1.1", upstream: "fastcgi://172.19.0.5:9000", host: "siabes-web.localhost:8089"
+2024/09/12 23:09:28 [notice] 1#1: using the "epoll" event method
+2024/09/12 23:09:28 [notice] 1#1: nginx/1.27.1
+2024/09/12 23:09:28 [notice] 1#1: built by gcc 13.2.1 20240309 (Alpine 13.2.1_git20240309) 
+2024/09/12 23:09:28 [notice] 1#1: OS: Linux 5.15.153.1-microsoft-standard-WSL2
+2024/09/12 23:09:28 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2024/09/12 23:09:28 [notice] 1#1: start worker processes
+2024/09/12 23:09:28 [notice] 1#1: start worker process 20
+2024/09/12 23:09:28 [notice] 1#1: start worker process 21
+2024/09/12 23:09:28 [notice] 1#1: start worker process 22
+2024/09/12 23:09:28 [notice] 1#1: start worker process 23
+2024/09/12 23:09:28 [notice] 1#1: start worker process 24
+2024/09/12 23:09:28 [notice] 1#1: start worker process 25
+2024/09/12 23:09:28 [notice] 1#1: start worker process 26
+2024/09/12 23:09:28 [notice] 1#1: start worker process 27
+2024/09/12 23:09:28 [notice] 1#1: start worker process 28
+2024/09/12 23:09:28 [notice] 1#1: start worker process 29
+2024/09/12 23:09:28 [notice] 1#1: start worker process 30
+2024/09/12 23:09:28 [notice] 1#1: start worker process 31
+2024/09/12 23:20:08 [warn] 28#28: *17 an upstream response is buffered to a temporary file /var/cache/nginx/fastcgi_temp/1/00/0000000001 while reading upstream, client: 172.19.0.1, server: siabes-api, request: "POST /api/v1/task/store HTTP/1.1", upstream: "fastcgi://172.19.0.5:9000", host: "localhost:8089"
+2024/09/12 23:40:24 [warn] 20#20: *39 an upstream response is buffered to a temporary file /var/cache/nginx/fastcgi_temp/2/00/0000000002 while reading upstream, client: 172.19.0.1, server: siabes-api, request: "POST /api/v1/task/update/5 HTTP/1.1", upstream: "fastcgi://172.19.0.5:9000", host: "localhost:8089"

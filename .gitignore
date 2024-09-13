@@ -1,4 +1,5 @@
 .docker/docs/swagger/api-docs.json
+.docker/redis/data/dump.rdb
 /.phpunit.cache
 /node_modules
 /public/build
@@ -26,6 +27,8 @@ yarn-error.log
 docker-compose.yml
 /.docker/docs/swagger/api-docs.json
 composer.lock
+.docker/nginx/logs/access.log
+.docker/nginx/logs/error.log
 
 app/Console/Commands/TesteSms.php
 .docker/nginx/logs/*.log
