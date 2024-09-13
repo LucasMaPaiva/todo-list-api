@@ -21,7 +21,12 @@ class CreateTaskService implements Contracts\CreateTaskServiceContract
         $this->taskRepository = app(TaskRepositoryContract::class);
     }
 
-    public function execute($request)
+    /**
+     * @param $request
+     * @return mixed
+     * @throws Exception
+     */
+    public function execute($request): mixed
     {
         try{
             DB::beginTransaction();

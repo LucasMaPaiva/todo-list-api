@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Routing\Controller;
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Services\Task\Contracts\UpdateTaskServiceContract;
+use App\DataTransferObjects\Task\UpdateTaskDTO;
 
 class TaskController extends Controller
 {
@@ -22,6 +24,11 @@ class TaskController extends Controller
      * @var CreateTaskServiceContract
      */
     private CreateTaskServiceContract $createTaskService;
+
+    /**
+     * @var UpdateTaskServiceContract
+     */
+    private UpdateTaskServiceContract $updateTaskService;
 
     /**
      *
@@ -37,6 +44,7 @@ class TaskController extends Controller
     public function services() :void
     {
         $this->createTaskService = app(CreateTaskServiceContract::class);
+        $this->updateTaskService = app(UpdateTaskServiceContract::class);
     }
 
     /**
@@ -64,14 +72,20 @@ class TaskController extends Controller
         }
     }
 
-    public function update($id, UpdateTaskRequest $request)
+    /**
+     * @param $id
+     * @param UpdateTaskRequest $request
+     * @return JsonResponse
+     */
+    public function update($id, UpdateTaskRequest $request): JsonResponse
     {
         try {
             return self::successResponse(
                 data: UpdateTaskResource::make(
-                    $this->createTaskService->execute(
-                        CreateTaskDTO::fromRequest($request)
-                    )
+                    $this->updateTaskService->execute(
+                        $id,
+                        UpdateTaskDTO::fromRequest($request)
+                    ),
                 ),
                 message: __('messages.success.store_message', ['scope' => 'Tarefa']),
                 status_code: 201
