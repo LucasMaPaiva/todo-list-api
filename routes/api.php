@@ -13,7 +13,10 @@ Route::prefix('v1')->group(function () {
         ]);
     });
 
-    Route::post('login', [AuthController::class, 'login']);
+    Route::group(['prefix' => 'auth'], function () {
+        Route::post('register', [AuthController::class, 'register']);
+        Route::post('login', [AuthController::class, 'login']);
+    });
 
     Route::group(['prefix' => 'task'], function () {
         Route::post('store', [TaskController::class, 'store']);
