@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\V1\TaskController;
 use App\Http\Controllers\API\V1\TaskSituationController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -11,6 +12,8 @@ Route::prefix('v1')->group(function () {
             'message' => 'Teste de API'
         ]);
     });
+
+    Route::post('login', [AuthController::class, 'login']);
 
     Route::group(['prefix' => 'task'], function () {
         Route::post('store', [TaskController::class, 'store']);
