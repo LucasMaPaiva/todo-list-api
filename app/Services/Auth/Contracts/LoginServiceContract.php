@@ -4,5 +4,5 @@ namespace App\Services\Auth\Contracts;
 
 interface LoginServiceContract
 {
-    public function execute($request);
+    public function execute($loginDTO);
 }

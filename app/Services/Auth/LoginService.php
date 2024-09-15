@@ -24,18 +24,18 @@ class LoginService implements LoginServiceContract
     }
 
     /**
-     * @param $request
+     * @param $loginDTO
      * @return array
      * @throws Exception
      */
-    public function execute($request)
+    public function execute($loginDTO) : array
     {
         try {
             $user = $this->getUserbyNameService->execute(
-                name: $request->name,
+                name: $loginDTO->email,
             );
             $this->checkIfCanAccess(
-                password: $request->password,
+                password: $loginDTO->password,
                 user: $user
             );
 
@@ -56,7 +56,7 @@ class LoginService implements LoginServiceContract
     private function checkIfCanAccess($password, mixed $user) {
         try {
             if (!$user || !Hash::check($password, $user->password)) {
-                dd('nao deu');
+                throw new InvalidArgumentException(__('message.user.not_found'));
             }
         } catch (InvalidArgumentException $invalidArgumentException) {
             throw $invalidArgumentException;

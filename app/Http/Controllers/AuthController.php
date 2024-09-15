@@ -38,7 +38,7 @@ class AuthController extends Controller
      * @param LoginRequest $request
      * @return mixed
      */
-    public function login(LoginRequest $request) : mixed
+    public function login(LoginRequest $request) :mixed
     {
         try {
             return self::successResponse(
