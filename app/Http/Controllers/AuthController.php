@@ -8,7 +8,6 @@ use App\Http\Resources\Auth\LoginResource;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use InvalidArgumentException;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Illuminate\Routing\Controller;
 use App\Services\Auth\Contracts\LoginServiceContract;
 
@@ -29,9 +28,10 @@ class AuthController extends Controller
     }
 
     /**
-     * @return JsonResponse
+     * @param LoginRequest $request
+     * @return mixed
      */
-    public function login(LoginRequest $request) :JsonResponse
+    public function login(LoginRequest $request) : mixed
     {
         try {
             return self::successResponse(
