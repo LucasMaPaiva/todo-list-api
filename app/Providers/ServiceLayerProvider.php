@@ -4,10 +4,12 @@ namespace App\Providers;
 
 use App\Services\Auth\Contracts\GetUserbyNameServiceContract;
 use App\Services\Auth\Contracts\LoginServiceContract;
+use App\Services\Auth\Contracts\RegisterUserServiceContract;
 use App\Services\Auth\Contracts\SetDataInCacheServiceContracts;
 use App\Services\Auth\Contracts\SetDataUserInCacheServiceContract;
 use App\Services\Auth\GetUserbyNameService;
 use App\Services\Auth\LoginService;
+use App\Services\Auth\RegisterUserService;
 use App\Services\Auth\SetDataInCacheService;
 use App\Services\Auth\setDataUserInCacheService;
 use App\Services\Contracts\CreateTaskSituationServiceContract;
@@ -44,8 +46,7 @@ class ServiceLayerProvider extends ServiceProvider
     {
         $this->app->bind(LoginServiceContract::class, LoginService::class);
         $this->app->bind(GetUserbyNameServiceContract::class, GetUserbyNameService::class);
-        $this->app->bind(SetDataInCacheServiceContracts::class, SetDataInCacheService::class);
-        $this->app->bind(SetDataUserInCacheServiceContract::class, SetDataUserInCacheService::class);
+        $this->app->bind(RegisterUserServiceContract::class, RegisterUserService::class);
     }
 
     public function TaskSituationBoot() :void
