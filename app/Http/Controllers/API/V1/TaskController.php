@@ -16,6 +16,7 @@ use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Services\Task\Contracts\UpdateTaskServiceContract;
 use App\DataTransferObjects\Task\UpdateTaskDTO;
+use App\Services\Task\Contracts\DeleteTaskServiceContract;
 
 class TaskController extends Controller
 {
@@ -31,6 +32,11 @@ class TaskController extends Controller
     private UpdateTaskServiceContract $updateTaskService;
 
     /**
+     * @var DeleteTaskServiceContract
+     */
+    private DeleteTaskServiceContract $deleteTaskService;
+
+    /**
      *
      */
     public function __construct()
@@ -41,10 +47,11 @@ class TaskController extends Controller
     /**
      * @return void
      */
-    public function services() :void
+    public function services(): void
     {
         $this->createTaskService = app(CreateTaskServiceContract::class);
         $this->updateTaskService = app(UpdateTaskServiceContract::class);
+        $this->deleteTaskService = app(DeleteTaskServiceContract::class);
     }
 
     /**
@@ -87,7 +94,7 @@ class TaskController extends Controller
                         UpdateTaskDTO::fromRequest($request)
                     ),
                 ),
-                message: __('messages.success.store_message', ['scope' => 'Tarefa']),
+                message: __('messages.success.update_message', ['scope' => 'Tarefa']),
                 status_code: 201
             );
         } catch (ModelNotFoundException $modelNotFoundException) {
@@ -98,4 +105,24 @@ class TaskController extends Controller
             return self::internalServerErrorResponse($exception);
         }
     }
+
+    public function destroy($id)
+    {
+        try {
+
+            return self::successResponse(
+                data: $this->deleteTaskService->execute($id),
+                message: __('messages.success.delete_message', ['scope' => 'Tarefa']),
+                status_code: 201
+            );
+
+        } catch (ModelNotFoundException $modelNotFoundException) {
+            return self::modelNotFoundResponse($modelNotFoundException);
+        } catch (InvalidArgumentException $invalidArgumentException) {
+            return self::invalidArgumentResponse($invalidArgumentException);
+        } catch (Exception $exception) {
+            return self::internalServerErrorResponse($exception);
+        }
+    }
+
 }
