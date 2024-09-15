@@ -12,5 +12,5 @@ interface RegisterUserServiceContract
      * @param RegisterUserDTO $registerUserDTO
      * @return mixed
      */
-    public function execute(RegisterUserDTO $registerUserDTO) :JsonResponse;
+    public function execute(RegisterUserDTO $registerUserDTO) :mixed;
 }

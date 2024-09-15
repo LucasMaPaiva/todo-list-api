@@ -33,10 +33,10 @@ class RegisterUserService implements Contracts\RegisterUserServiceContract
 
     /**
      * @param RegisterUserDTO $registerUserDTO
-     * @return JsonResponse
+     * @return mixed
      * @throws Exception
      */
-    public function execute(RegisterUserDTO $registerUserDTO) :JsonResponse
+    public function execute(RegisterUserDTO $registerUserDTO) :mixed
     {
         try {
             DB::beginTransaction();
