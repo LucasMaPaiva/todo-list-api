@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
-use App\Services\Auth\Contracts\GetUserbyNameServiceContract;
+use App\Services\Auth\Contracts\GetUserbyEmailServiceContract;
 use App\Services\Auth\Contracts\LoginServiceContract;
 use App\Services\Auth\Contracts\RegisterUserServiceContract;
 use App\Services\Auth\Contracts\SetDataInCacheServiceContracts;
 use App\Services\Auth\Contracts\SetDataUserInCacheServiceContract;
-use App\Services\Auth\GetUserbyNameService;
+use App\Services\Auth\GetUserbyEmailService;
 use App\Services\Auth\LoginService;
 use App\Services\Auth\RegisterUserService;
 use App\Services\Auth\SetDataInCacheService;
@@ -50,7 +50,7 @@ class ServiceLayerProvider extends ServiceProvider
     public function AuthBoot() :void
     {
         $this->app->bind(LoginServiceContract::class, LoginService::class);
-        $this->app->bind(GetUserbyNameServiceContract::class, GetUserbyNameService::class);
+        $this->app->bind(GetUserbyEmailServiceContract::class, GetUserbyEmailService::class);
         $this->app->bind(RegisterUserServiceContract::class, RegisterUserService::class);
     }
 

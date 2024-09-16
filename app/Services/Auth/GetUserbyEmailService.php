@@ -2,12 +2,12 @@
 
 namespace App\Services\Auth;
 
-use App\Services\Auth\Contracts\GetUserbyNameServiceContract;
+use App\Services\Auth\Contracts\GetUserbyEmailServiceContract;
 use Exception;
 use App\Repository\Contracts\UserRepositoryContract;
 use InvalidArgumentException;
 
-class GetUserbyNameService implements Contracts\GetUserbyNameServiceContract
+class GetUserbyEmailService implements Contracts\GetUserbyEmailServiceContract
 {
 
     private UserRepositoryContract $userRepository;
@@ -21,15 +21,15 @@ class GetUserbyNameService implements Contracts\GetUserbyNameServiceContract
     {
         $this->userRepository = app(UserRepositoryContract::class);
     }
-    public function execute(string $name)
+    public function execute(string $email)
     {
         try {
 
-            $name = $this->userRepository->findByColumn('name', $name);
-            if (!$name) {
+            $email = $this->userRepository->findByColumn('email', $email);
+            if (!$email) {
                 throw new InvalidArgumentException(__('validation.custom.user.not-found-by-username'));
             }
-            return $name;
+            return $email;
 
         } catch (InvalidArgumentException $invalidArgumentException) {
             throw $invalidArgumentException;

@@ -13,7 +13,7 @@ class LoginDTO extends Data
      * @param $password
      */
     public function __construct(
-        public $name,
+        public $email,
         public $password,
     )
     {
@@ -26,7 +26,7 @@ class LoginDTO extends Data
      */
     public static function fromRequest(LoginRequest $request): LoginDTO {
         return new self(
-            name: $request->validated('name'),
+            email: $request->validated('email'),
             password: $request->validated('password')
         );
     }
