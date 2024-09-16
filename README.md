@@ -1,66 +1,358 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Documentação da API de Gerenciamento de Tarefas
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Introdução
 
-## About Laravel
+Esta documentação descreve a API de Gerenciamento de Tarefas desenvolvida com Laravel. A API permite o gerenciamento de usuários, tarefas, etiquetas (tags) e, opcionalmente, projetos. A autenticação é realizada por meio de um token JWT, garantindo segurança nas operações.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Estrutura de Tabelas e Relacionamentos
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Tabela `users`
+A tabela de usuários armazena as informações dos usuários registrados na API.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**Estrutura**:
 
-## Learning Laravel
+```sql
+CREATE TABLE users (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP
+);
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Tabela `tasks`
+A tabela de tarefas armazena as tarefas criadas pelos usuários. Cada tarefa está associada a um usuário e pode ter uma ou mais etiquetas.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+**Estrutura**:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```sql
+CREATE TABLE tasks (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    task_situation_id BIGINT,
+    user_id BIGINT,
+    tag_id BIGINT,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (task_situation_id) REFERENCES task_situation(id),
+    FOREIGN KEY (tag_id) REFERENCES tags(id)
+);
+```
 
-## Laravel Sponsors
+### Tabela `tags`
+A tabela de etiquetas (tags) armazena as etiquetas que podem ser associadas às tarefas.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+**Estrutura**:
 
-### Premium Partners
+```sql
+CREATE TABLE tags (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP
+);
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Relacionamentos
 
-## Contributing
+- **Usuário - Tarefas**: Um usuário pode ter muitas tarefas. A relação é representada por `user_id` na tabela `tasks`.
+- **Tarefas - Etiquetas**: Cada tarefa pode ter uma ou mais etiquetas associadas por meio de `tag_id`.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Endpoints da API
 
-## Code of Conduct
+### Autenticação de Usuários
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### Registro de Usuário
+- **Método**: `POST`
+- **Endpoint**: `/register`
+- **Descrição**: Cria um novo usuário.
+- **Requisição**:
+    ```json
+    {
+        "name": "John Doe",
+        "email": "john@example.com",
+        "password": "123456"
+    }
+    ```
+- **Resposta**:
+    ```json
+    {
+        "message": "User registered successfully.",
+        "token": "jwt-token"
+    }
+    ```
 
-## Security Vulnerabilities
+#### Login de Usuário
+- **Método**: `POST`
+- **Endpoint**: `/login`
+- **Descrição**: Autentica o usuário e gera um token JWT.
+- **Requisição**:
+    ```json
+    {
+        "email": "john@example.com",
+        "password": "123456"
+    }
+    ```
+- **Resposta**:
+    ```json
+    {
+        "message": "Login successful.",
+        "token": "jwt-token"
+    }
+    ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Endpoints de Usuários
 
-## License
+#### Buscar Usuário
+- **Método**: `GET`
+- **Endpoint**: `/users/{id}`
+- **Descrição**: Retorna as informações de um usuário específico.
+- **Resposta**:
+    ```json
+    {
+        "id": 1,
+        "name": "John Doe",
+        "email": "john@example.com",
+        "created_at": "2023-01-01T00:00:00",
+        "updated_at": "2023-01-01T00:00:00"
+    }
+    ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+#### Atualizar Usuário
+- **Método**: `PUT` ou `PATCH`
+- **Endpoint**: `/users/{id}`
+- **Descrição**: Atualiza as informações do usuário.
+- **Requisição**:
+    ```json
+    {
+        "name": "John Doe Updated",
+        "email": "john_updated@example.com"
+    }
+    ```
+- **Resposta**:
+    ```json
+    {
+        "message": "User updated successfully."
+    }
+    ```
+
+#### Excluir Usuário (Opcional)
+- **Método**: `DELETE`
+- **Endpoint**: `/users/{id}`
+- **Descrição**: Exclui um usuário da API.
+- **Resposta**:
+    ```json
+    {
+        "message": "User deleted successfully."
+    }
+    ```
+
+### Endpoints de Tarefas
+
+#### Listar Tarefas
+- **Método**: `GET`
+- **Endpoint**: `/tasks`
+- **Descrição**: Retorna a lista de todas as tarefas do usuário autenticado.
+- **Resposta**:
+    ```json
+    [
+        {
+            "id": 1,
+            "title": "Task 1",
+            "description": "Task description",
+            "status": "pending",
+            "created_at": "2023-01-01T00:00:00",
+            "updated_at": "2023-01-01T00:00:00"
+        },
+        {
+            "id": 2,
+            "title": "Task 2",
+            "description": "Another task description",
+            "status": "completed",
+            "created_at": "2023-01-02T00:00:00",
+            "updated_at": "2023-01-02T00:00:00"
+        }
+    ]
+    ```
+
+#### Criar Tarefa
+- **Método**: `POST`
+- **Endpoint**: `/tasks`
+- **Descrição**: Cria uma nova tarefa para o usuário autenticado.
+- **Requisição**:
+    ```json
+    {
+        "title": "New Task",
+        "description": "Task description",
+        "status": "pending"
+    }
+    ```
+- **Resposta**:
+    ```json
+    {
+        "message": "Task created successfully."
+    }
+    ```
+
+#### Buscar Detalhes de uma Tarefa
+- **Método**: `GET`
+- **Endpoint**: `/tasks/{id}`
+- **Descrição**: Retorna os detalhes de uma tarefa específica.
+- **Resposta**:
+    ```json
+    {
+        "id": 1,
+        "title": "Task 1",
+        "description": "Task description",
+        "status": "pending",
+        "created_at": "2023-01-01T00:00:00",
+        "updated_at": "2023-01-01T00:00:00"
+    }
+    ```
+
+#### Atualizar Tarefa
+- **Método**: `PUT` ou `PATCH`
+- **Endpoint**: `/tasks/{id}`
+- **Descrição**: Atualiza as informações de uma tarefa específica.
+- **Requisição**:
+    ```json
+    {
+        "title": "Updated Task",
+        "status": "in progress"
+    }
+    ```
+- **Resposta**:
+    ```json
+    {
+        "message": "Task updated successfully."
+    }
+    ```
+
+#### Excluir Tarefa
+- **Método**: `DELETE`
+- **Endpoint**: `/tasks/{id}`
+- **Descrição**: Exclui uma tarefa.
+- **Resposta**:
+    ```json
+    {
+        "message": "Task deleted successfully."
+    }
+    ```
+
+#### Marcar Tarefa como Concluída
+- **Método**: `PUT` ou `PATCH`
+- **Endpoint**: `/tasks/{id}/complete`
+- **Descrição**: Marca uma tarefa como concluída.
+- **Resposta**:
+    ```json
+    {
+        "message": "Task marked as complete."
+    }
+    ```
+
+### Endpoints de Etiquetas (Tags)
+
+#### Listar Etiquetas
+- **Método**: `GET`
+- **Endpoint**: `/tags`
+- **Descrição**: Retorna a lista de todas as etiquetas associadas ao usuário.
+- **Resposta**:
+    ```json
+    [
+        {
+            "id": 1,
+            "name": "Urgent",
+            "created_at": "2023-01-01T00:00:00",
+            "updated_at": "2023-01-01T00:00:00"
+        },
+        {
+            "id": 2,
+            "name": "Work",
+            "created_at": "2023-01-02T00:00:00",
+            "updated_at": "2023-01-02T00:00:00"
+        }
+    ]
+    ```
+
+#### Criar Etiqueta
+- **Método**: `POST`
+- **Endpoint**: `/tags`
+- **Descrição**: Cria uma nova etiqueta.
+- **Requisição**:
+    ```json
+    {
+        "name": "Personal"
+    }
+    ```
+- **Resposta**:
+    ```json
+    {
+        "message": "Tag created successfully."
+    }
+    ```
+
+#### Excluir Etiqueta
+- **Método**: `DELETE`
+- **Endpoint**: `/tags/{id}`
+- **Descrição**: Exclui uma etiqueta.
+- **Resposta**:
+    ```json
+    {
+        "message": "Tag deleted successfully."
+    }
+    ```
+
+### Endpoints de Projetos (Opcional)
+
+#### Listar Projetos
+- **Método**: `GET`
+- **Endpoint**: `/projects`
+- **Descrição**: Retorna a lista de todos os projetos.
+- **Resposta**:
+    ```json
+    [
+        {
+            "id": 1,
+            "name": "Project 1",
+
+
+            "created_at": "2023-01-01T00:00:00",
+            "updated_at": "2023-01-01T00:00:00"
+        }
+    ]
+    ```
+
+#### Criar Projeto
+- **Método**: `POST`
+- **Endpoint**: `/projects`
+- **Descrição**: Cria um novo projeto.
+- **Requisição**:
+    ```json
+    {
+        "name": "New Project"
+    }
+    ```
+- **Resposta**:
+    ```json
+    {
+        "message": "Project created successfully."
+    }
+    ```
+
+## Exemplo de Fluxo de Trabalho
+
+1. O usuário se registra ou faz login na API.
+2. Após o login, o usuário recebe um token JWT, que será usado nas requisições subsequentes.
+3. O usuário pode listar, criar, atualizar e excluir tarefas.
+4. Cada tarefa pode ser associada a etiquetas (tags) para facilitar a organização.
+5. O usuário pode marcar tarefas como concluídas.
+6. Opcionalmente, o usuário pode criar projetos para agrupar tarefas relacionadas.
+
+## Considerações Finais
+
+Esta API oferece um sistema completo para gerenciamento de tarefas e projetos. Para futuras expansões, pode-se adicionar funcionalidades como notificações, relatórios ou suporte a sub-tarefas.
+
