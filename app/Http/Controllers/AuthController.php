@@ -7,6 +7,7 @@ use App\DataTransferObjects\Auth\RegisterUserDTO;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterUserRequest;
 use App\Http\Resources\Auth\LoginResource;
+use App\Http\Resources\Auth\RegisterUserResource;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
@@ -36,9 +37,9 @@ class AuthController extends Controller
 
     /**
      * @param LoginRequest $request
-     * @return mixed
+     * @return JsonResponse
      */
-    public function login(LoginRequest $request) :mixed
+    public function login(LoginRequest $request)
     {
         try {
             return self::successResponse(
@@ -68,7 +69,7 @@ class AuthController extends Controller
         try {
 
             return self::successResponse(
-                data: LoginResource::make(
+                data: RegisterUserResource::make(
                     $this->registerUserService->execute(
                         RegisterUserDTO::fromRequest($request)
                     ),
