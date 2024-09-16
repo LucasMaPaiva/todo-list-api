@@ -2,16 +2,17 @@
 
 namespace App\Services\Auth;
 
+use App\DataTransferObjects\Auth\LoginDTO;
 use App\Services\Auth\Contracts\LoginServiceContract;
 use Exception;
-use App\Services\Auth\Contracts\GetUserbyNameServiceContract;
+use App\Services\Auth\Contracts\GetUserbyEmailServiceContract;
 use Illuminate\Support\Facades\Hash;
 use InvalidArgumentException;
 
 class LoginService implements LoginServiceContract
 {
 
-    private GetUserbyNameServiceContract $getUserbyNameService;
+    private GetUserbyEmailServiceContract $getUserbyEmailService;
 
     public function __construct()
     {
@@ -20,27 +21,29 @@ class LoginService implements LoginServiceContract
 
     public function services()
     {
-        $this->getUserbyNameService = app(GetUserbyNameServiceContract::class);
+        $this->getUserbyEmailService = app(GetUserbyEmailServiceContract::class);
     }
 
     /**
-     * @param $loginDTO
-     * @return array
+     * @param LoginDTO $loginDTO
+     * @return mixed
      * @throws Exception
      */
-    public function execute($loginDTO) : array
+    public function execute(LoginDTO $loginDTO)
     {
         try {
-            $user = $this->getUserbyNameService->execute(
-                name: $loginDTO->email,
+            $user = $this->getUserbyEmailService->execute(
+                email: $loginDTO->email,
             );
+
             $this->checkIfCanAccess(
                 password: $loginDTO->password,
                 user: $user
             );
 
             $token = $this->generateToken($user);
-            return [
+
+            return  [
                 'access_token' => $token,
                 'user' => $user,
             ];
