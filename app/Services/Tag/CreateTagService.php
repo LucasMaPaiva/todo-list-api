@@ -2,6 +2,7 @@
 
 namespace App\Services\Tag;
 
+use App\DataTransferObjects\Tag\CreateTagDTO;
 use App\Models\Tag;
 use App\Repository\TagRepository;
 use App\Services\Tag\Contracts\CreateTagServiceContract;
@@ -30,11 +31,11 @@ class CreateTagService implements Contracts\CreateTagServiceContract
     }
 
     /**
-     * @param $createTagDTO
+     * @param CreateTagDTO $createTagDTO
      * @return mixed
      * @throws Exception
      */
-    public function execute($createTagDTO) :mixed
+    public function execute(CreateTagDTO $createTagDTO) :mixed
     {
         try {
             return $this->tagRepository->create([

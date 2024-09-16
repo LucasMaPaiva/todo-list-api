@@ -2,6 +2,8 @@
 
 namespace App\Services\Task\Contracts;
 
+use App\DataTransferObjects\Task\UpdateTaskDTO;
+
 interface UpdateTaskServiceContract
 {
     /**
@@ -9,5 +11,5 @@ interface UpdateTaskServiceContract
      * @param $request
      * @return mixed
      */
-    public function execute($id, $request): mixed;
+    public function execute($id, UpdateTaskDTO $updateTaskDTO): mixed;
 }

@@ -106,7 +106,11 @@ class TaskController extends Controller
         }
     }
 
-    public function destroy($id)
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy($id) :JsonResponse
     {
         try {
 

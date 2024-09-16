@@ -2,6 +2,7 @@
 
 namespace App\Services\Task;
 
+use App\DataTransferObjects\Task\UpdateTaskDTO;
 use App\Repository\Contracts\TaskRepositoryContract;
 use App\Repository\TaskRepository;
 use Exception;
@@ -47,11 +48,11 @@ class UpdateTaskService implements UpdateTaskServiceContract
 
     /**
      * @param $id
-     * @param  $request
+     * @param UpdateTaskDTO $updateTaskDTO
      * @return object
      * @throws Exception
      */
-     public function execute($id, $request): object
+     public function execute($id, UpdateTaskDTO $updateTaskDTO): object
      {
          try{
 
@@ -59,9 +60,9 @@ class UpdateTaskService implements UpdateTaskServiceContract
 
              DB::beginTransaction();
              $task = $this->taskRepository->update($id, [
-                 'title' => $request->title,
-                 'description' => $request->description,
-                 'task_situation_id' => $request->task_situation_id
+                 'title' => $updateTaskDTO->title,
+                 'description' => $updateTaskDTO->description,
+                 'task_situation_id' => $updateTaskDTO->task_situation_id
              ]);
              DB::commit();
              return $task;

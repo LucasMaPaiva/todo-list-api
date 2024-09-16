@@ -2,6 +2,7 @@
 
 namespace App\Services\Task;
 
+use App\DataTransferObjects\Task\CreateTaskDTO;
 use App\Repository\Contracts\TaskRepositoryContract;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -22,18 +23,18 @@ class CreateTaskService implements Contracts\CreateTaskServiceContract
     }
 
     /**
-     * @param $request
+     * @param CreateTaskDTO $createTaskDTO
      * @return mixed
      * @throws Exception
      */
-    public function execute($request): mixed
+    public function execute(CreateTaskDTO $createTaskDTO): mixed
     {
         try{
             DB::beginTransaction();
             $task = $this->taskRepository->create([
-                'title' => $request->title,
-                'description' => $request->description,
-                'task_situation_id' => $request->task_situation_id,
+                'title' => $createTaskDTO->title,
+                'description' => $createTaskDTO->description,
+                'task_situation_id' => $createTaskDTO->task_situation_id,
             ]);
             DB::commit();
             return $task;
