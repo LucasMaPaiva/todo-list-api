@@ -11,6 +11,9 @@ use App\Repository\Contracts\TagRepositoryContract;
 class CreateTagService implements Contracts\CreateTagServiceContract
 {
 
+    /**
+     * @var TagRepositoryContract
+     */
     private TagRepositoryContract $tagRepository;
 
     public function __construct()
@@ -18,11 +21,20 @@ class CreateTagService implements Contracts\CreateTagServiceContract
         $this->repositories();
     }
 
+    /**
+     * @return void
+     */
     public function repositories() :void
     {
         $this->tagRepository = app(TagRepository::class);
     }
-    public function execute($createTagDTO)
+
+    /**
+     * @param $createTagDTO
+     * @return mixed
+     * @throws Exception
+     */
+    public function execute($createTagDTO) :mixed
     {
         try {
             return $this->tagRepository->create([

@@ -4,5 +4,9 @@ namespace App\Services\Tag\Contracts;
 
 interface CreateTagServiceContract
 {
-    public function execute($createTagDTO);
+    /**
+     * @param $createTagDTO
+     * @return mixed
+     */
+    public function execute($createTagDTO) :mixed;
 }
