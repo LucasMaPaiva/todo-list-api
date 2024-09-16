@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Repository\Contracts\TagRepositoryContract;
 use App\Repository\Contracts\TaskRepositoryContract;
 use App\Repository\Contracts\TaskSituationRepositoryContract;
 use App\Repository\Contracts\UserRepositoryContract;
+use App\Repository\TagRepository;
 use App\Repository\TaskRepository;
 use App\Repository\TaskSituationRepository;
 use App\Repository\UserRepository;
@@ -25,6 +27,7 @@ class RepositoryLayerProvider extends ServiceProvider {
         $this->UserBoot();
         $this->TaskSituationBoot();
         $this->TaskBoot();
+        $this->TagBoot();
     }
 
     public function UserBoot() :void
@@ -40,5 +43,10 @@ class RepositoryLayerProvider extends ServiceProvider {
     public function TaskBoot() :void
     {
         $this->app->bind(TaskRepositoryContract::class, TaskRepository::class);
+    }
+
+    public function TagBoot() :void
+    {
+        $this->app->bind(TagRepositoryContract::class, TagRepository::class);
     }
 }

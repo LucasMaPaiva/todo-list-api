@@ -14,6 +14,8 @@ use App\Services\Auth\SetDataInCacheService;
 use App\Services\Auth\setDataUserInCacheService;
 use App\Services\Contracts\CreateTaskSituationServiceContract;
 use App\Services\CreateTaskSituationService;
+use App\Services\Tag\Contracts\CreateTagServiceContract;
+use App\Services\Tag\CreateTagService;
 use App\Services\Task\Contracts\CreateTaskServiceContract;
 use App\Services\Task\Contracts\DeleteTaskServiceContract;
 use App\Services\Task\Contracts\GetTaskByIdServiceContract;
@@ -42,6 +44,7 @@ class ServiceLayerProvider extends ServiceProvider
         $this->AuthBoot();
         $this->TaskSituationBoot();
         $this->TaskBoot();
+        $this->TagBoot();
     }
 
     public function AuthBoot() :void
@@ -62,5 +65,10 @@ class ServiceLayerProvider extends ServiceProvider
         $this->app->bind(UpdateTaskServiceContract::class, UpdateTaskService::class);
         $this->app->bind(GetTaskByIdServiceContract::class, GetTaskByIdService::class);
         $this->app->bind(DeleteTaskServiceContract::class, DeleteTaskService::class);
+    }
+
+    public function TagBoot() :void
+    {
+        $this->app->bind(CreateTagServiceContract::class, CreateTagService::class);
     }
 }

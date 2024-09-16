@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\V1\TagController;
 use App\Http\Controllers\API\V1\TaskController;
 use App\Http\Controllers\API\V1\TaskSituationController;
 use App\Http\Controllers\AuthController;
@@ -28,6 +29,10 @@ Route::prefix('v1')->group(function () {
 
     Route::group(['prefix' => 'task-situation'], function () {
         Route::post('store', [TaskSituationController::class, 'store']);
+    });
+
+    Route::group(['prefix' => 'tag'], function () {
+        Route::post('',[TagController::class, 'store']);
     });
 
 });
