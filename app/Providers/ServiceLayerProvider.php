@@ -5,17 +5,17 @@ namespace App\Providers;
 use App\Services\Auth\Contracts\GetUserbyEmailServiceContract;
 use App\Services\Auth\Contracts\LoginServiceContract;
 use App\Services\Auth\Contracts\RegisterUserServiceContract;
-use App\Services\Auth\Contracts\SetDataInCacheServiceContracts;
-use App\Services\Auth\Contracts\SetDataUserInCacheServiceContract;
 use App\Services\Auth\GetUserbyEmailService;
 use App\Services\Auth\LoginService;
 use App\Services\Auth\RegisterUserService;
-use App\Services\Auth\SetDataInCacheService;
-use App\Services\Auth\setDataUserInCacheService;
 use App\Services\Contracts\CreateTaskSituationServiceContract;
 use App\Services\CreateTaskSituationService;
 use App\Services\Tag\Contracts\CreateTagServiceContract;
+use App\Services\Tag\Contracts\DestroyTagServiceContract;
+use App\Services\Tag\Contracts\GetTagByIdService;
+use App\Services\Tag\Contracts\GetTagByIdServiceContract;
 use App\Services\Tag\CreateTagService;
+use App\Services\Tag\DestroyTagService;
 use App\Services\Task\Contracts\CreateTaskServiceContract;
 use App\Services\Task\Contracts\DeleteTaskServiceContract;
 use App\Services\Task\Contracts\GetTaskByIdServiceContract;
@@ -70,5 +70,7 @@ class ServiceLayerProvider extends ServiceProvider
     public function TagBoot() :void
     {
         $this->app->bind(CreateTagServiceContract::class, CreateTagService::class);
+        $this->app->bind(DestroyTagServiceContract::class, DestroyTagService::class);
+        $this->app->bind(GetTagByIdServiceContract::class, GetTagByIdService::class);
     }
 }

@@ -33,13 +33,6 @@ return [
         'not_found' => "Token não encontrado."
     ],
 
-    'entity' => [
-        'not_found' => "Entidade não encontrada.",
-        'created' => "Entidade criada com sucesso!",
-        'updated' => "Entidade atualizada com sucesso!",
-        'deleted' => "Entidade deletada com sucesso!"
-    ],
-
     'construction' => [
         'created' => "Obra adicionada com sucesso!"
     ],
@@ -54,28 +47,4 @@ return [
     'login' => [
         'success' => "Login efetuado com sucesso!"
     ],
-
-    'legal_person' => [
-        'not_found' => "Pessoa jurídica não encontrada.",
-        'exists' => "Não é possível realizar o cadastro desta empresa, pois ela já consta na base de dados." .
-            " Por favor entre em contato com o responsável legal da empresa.",
-        'not_exists' => "Pessoa jurídica apta para o cadastro."
-    ],
-
-    'natural_person' => [
-        'exists' => "Pessoa física encontrada na base de dados.",
-        'not_exists' => "Pessoa física não encontrada na base de dados."
-    ],
-
-    'cpf' => [
-        'invalid' => "O CPF informado é inválido."
-    ],
-
-    'mtr' => [
-        'max_quantity_exceeded' => "O total de quantidade dos itens não pode exceder o valor máximo de :max_quantity kg."
-    ],
-
-    'residue_type' => [
-        'diff' => "Todas as classes de resíduos devem pertencer ao tipo de :residue_type."
-    ]
 ];

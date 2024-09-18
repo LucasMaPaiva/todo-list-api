@@ -3,7 +3,6 @@
 namespace App\Services\Tag\Contracts;
 
 use App\Repository\Contracts\TagRepositoryContract;
-use App\Services\Tag\Contracts\GetTagByIdServiceContract;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use phpDocumentor\Reflection\Exception;
 
