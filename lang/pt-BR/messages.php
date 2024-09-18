@@ -55,6 +55,10 @@ return [
         'success' => "Login efetuado com sucesso!"
     ],
 
+    'logout' => [
+        'success' => "Logout com sucesso!"
+    ],
+
     'legal_person' => [
         'not_found' => "Pessoa jurídica não encontrada.",
         'exists' => "Não é possível realizar o cadastro desta empresa, pois ela já consta na base de dados." .

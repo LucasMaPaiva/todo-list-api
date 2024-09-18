@@ -11,6 +11,7 @@ use App\Http\Resources\Auth\RegisterUserResource;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use InvalidArgumentException;
 use Illuminate\Routing\Controller;
 use App\Services\Auth\Contracts\LoginServiceContract;
@@ -77,6 +78,28 @@ class AuthController extends Controller
                 message: __('messages.user.created'),
                 status_code: 201
             );
+
+        } catch (ModelNotFoundException $modelNotFoundException) {
+            return self::modelNotFoundResponse($modelNotFoundException);
+        } catch (InvalidArgumentException $invalidArgumentException) {
+            return self::invalidArgumentResponse($invalidArgumentException);
+        } catch (Exception $exception) {
+            return self::internalServerErrorResponse($exception);
+        }
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function logout() :JsonResponse
+    {
+        try {
+            return self::successResponse(
+                data: Auth::guard('web')->logout(),
+                message: __('messages.logout.success'),
+                status_code: 201
+            );
+
 
         } catch (ModelNotFoundException $modelNotFoundException) {
             return self::modelNotFoundResponse($modelNotFoundException);
