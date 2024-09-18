@@ -33,6 +33,9 @@ Route::prefix('v1')->group(function () {
 
     Route::group(['prefix' => 'tag'], function () {
         Route::post('',[TagController::class, 'store']);
+        Route::prefix('{id}')->group(function () {
+            Route::delete('', [TagController::class, 'destroy']);
+        });
     });
 
 });
