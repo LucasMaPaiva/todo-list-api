@@ -25,6 +25,9 @@ Route::prefix('v1')->group(function () {
             Route::put('', [TaskController::class, 'update']);
             Route::delete('', [TaskController::class, 'destroy']);
         });
+        Route::group(['prefix' => '{user_id}'], function () {
+            Route::get('', [TaskController::class, 'index']);
+        });
     });
 
     Route::group(['prefix' => 'task-situation'], function () {
