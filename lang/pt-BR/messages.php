@@ -33,10 +33,6 @@ return [
         'not_found' => "Token não encontrado."
     ],
 
-    'construction' => [
-        'created' => "Obra adicionada com sucesso!"
-    ],
-
     'user' => [
         'not_found' => "Usuário não encontrado.",
         'created' => "Usuário criado com sucesso!",
