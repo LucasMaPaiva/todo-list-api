@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Services\Task\Contracts\UpdateTaskServiceContract;
 use App\DataTransferObjects\Task\UpdateTaskDTO;
 use App\Services\Task\Contracts\DeleteTaskServiceContract;
+use App\Services\Task\Contracts\ListTaskByUserServiceContract;
 
 class TaskController extends Controller
 {
@@ -37,6 +38,11 @@ class TaskController extends Controller
     private DeleteTaskServiceContract $deleteTaskService;
 
     /**
+     * @var ListTaskByUserServiceContract
+     */
+    private ListTaskByUserServiceContract $listTaskByUserService;
+
+    /**
      *
      */
     public function __construct()
@@ -52,6 +58,7 @@ class TaskController extends Controller
         $this->createTaskService = app(CreateTaskServiceContract::class);
         $this->updateTaskService = app(UpdateTaskServiceContract::class);
         $this->deleteTaskService = app(DeleteTaskServiceContract::class);
+        $this->listTaskByUserService = app(ListTaskByUserServiceContract::class);
     }
 
     /**
@@ -120,6 +127,27 @@ class TaskController extends Controller
                 status_code: 201
             );
 
+        } catch (ModelNotFoundException $modelNotFoundException) {
+            return self::modelNotFoundResponse($modelNotFoundException);
+        } catch (InvalidArgumentException $invalidArgumentException) {
+            return self::invalidArgumentResponse($invalidArgumentException);
+        } catch (Exception $exception) {
+            return self::internalServerErrorResponse($exception);
+        }
+    }
+
+    /**
+     * @param $user_id
+     * @return JsonResponse
+     */
+    public function index($user_id) :JsonResponse
+    {
+        try {
+            return self::successResponse(
+                data: $this->listTaskByUserService->execute($user_id),
+                message: __('messages.success.show_message', ['scope' => 'Tarefas']),
+                status_code: 201
+            );
         } catch (ModelNotFoundException $modelNotFoundException) {
             return self::modelNotFoundResponse($modelNotFoundException);
         } catch (InvalidArgumentException $invalidArgumentException) {

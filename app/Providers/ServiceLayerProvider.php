@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\Services\Auth\Contracts\GetUserbyEmailServiceContract;
+use App\Services\Auth\Contracts\GetUserByIdServiceContract;
 use App\Services\Auth\Contracts\LoginServiceContract;
 use App\Services\Auth\Contracts\RegisterUserServiceContract;
 use App\Services\Auth\GetUserbyEmailService;
+use App\Services\Auth\GetUserByIdService;
 use App\Services\Auth\LoginService;
 use App\Services\Auth\RegisterUserService;
 use App\Services\Contracts\CreateTaskSituationServiceContract;
@@ -19,10 +21,12 @@ use App\Services\Tag\DestroyTagService;
 use App\Services\Task\Contracts\CreateTaskServiceContract;
 use App\Services\Task\Contracts\DeleteTaskServiceContract;
 use App\Services\Task\Contracts\GetTaskByIdServiceContract;
+use App\Services\Task\Contracts\ListTaskByUserServiceContract;
 use App\Services\Task\Contracts\UpdateTaskServiceContract;
 use App\Services\Task\CreateTaskService;
 use App\Services\Task\DeleteTaskService;
 use App\Services\Task\GetTaskByIdService;
+use App\Services\Task\ListTaskByUserService;
 use App\Services\Task\UpdateTaskService;
 use Illuminate\Support\ServiceProvider;
 
@@ -52,6 +56,7 @@ class ServiceLayerProvider extends ServiceProvider
         $this->app->bind(LoginServiceContract::class, LoginService::class);
         $this->app->bind(GetUserbyEmailServiceContract::class, GetUserbyEmailService::class);
         $this->app->bind(RegisterUserServiceContract::class, RegisterUserService::class);
+        $this->app->bind(GetUserByIdServiceContract::class, GetUserByIdService::class);
     }
 
     public function TaskSituationBoot() :void
@@ -65,6 +70,7 @@ class ServiceLayerProvider extends ServiceProvider
         $this->app->bind(UpdateTaskServiceContract::class, UpdateTaskService::class);
         $this->app->bind(GetTaskByIdServiceContract::class, GetTaskByIdService::class);
         $this->app->bind(DeleteTaskServiceContract::class, DeleteTaskService::class);
+        $this->app->bind(ListTaskByUserServiceContract::class, ListTaskByUserService::class);
     }
 
     public function TagBoot() :void
